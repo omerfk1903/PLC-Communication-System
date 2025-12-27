@@ -7,7 +7,6 @@ from datetime import datetime as dt
 CONTROL = 2
 register_address = 0
 last_rand = 0
-Socket_Status_Connect = False
 
 # it is necssery value HOST and PORT for PLC connect 
 HOST = "192.168.0.1"
@@ -21,23 +20,7 @@ client = ModbusClient(
     auto_close=True
 )
 
-# The client is checking the connection.
-while bool(client.is_open) == False :
-    
-    print("{0} Port with modbus formate is not connect : {1} ".format(dt.now(),Socket_Status_Connect))
-
-    Socket_Status_Connect = False
-
-    sleep(1)
-
-# İf client is active ,socket is start processings
-if bool(client.is_open) == True :
-
-    print("{0} Port with modbus formate is connect : {1} ".format(dt.now(),Socket_Status_Connect))
-
-    Socket_Status_Connect = True
-
-while Socket_Status_Connect == True :
+while True :
 
     if CONTROL == 1 : 
         
@@ -73,7 +56,7 @@ while Socket_Status_Connect == True :
 
                     break
                  
-        if result : print("✅ Data is send : ", value_to_send)
+        if result :  print(f"✅ {dt.now()}  Data is send : ", send)
 
         else : print("❌ Data is not send")
 
